@@ -50,6 +50,7 @@ class HomePage extends StatelessWidget {
         ),
       ),
       body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           const Padding(
             padding: EdgeInsets.only(left: 20, right: 20, top: 100, bottom: 200),
@@ -102,6 +103,11 @@ class CreateQuestion extends StatefulWidget {
 }
 
 class _CreateQuestionState extends State<CreateQuestion> {
+
+  TextEditingController _questionController = TextEditingController();
+  List<String> questionstore = [
+
+  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -110,7 +116,7 @@ class _CreateQuestionState extends State<CreateQuestion> {
         backgroundColor: Colors.grey[900],
         title: const Center(
           child: Text(
-            'Create the quiz !',
+            'Create the quiz !         ',
             style: TextStyle(
               fontSize: 30.0,
               fontWeight: FontWeight.bold,
@@ -120,24 +126,30 @@ class _CreateQuestionState extends State<CreateQuestion> {
         ),
       ),
       body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Expanded(
-              child: Text(
+          Padding(
+            padding: const EdgeInsets.only(left: 15.0),
+            child: Expanded(
+                child: Text(
                   'Enter the questions',
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
-              ),
-              )
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                )
+            ),
           ),
-
+          TextField(
+            controller: _questionController,
+            decoration: const InputDecoration(labelText: 'Who are you ?'),
+          ),
         ],
       ),
     );
   }
 }
-
 
 class QuizPage extends StatefulWidget {
   const QuizPage({super.key});
@@ -162,6 +174,8 @@ class _QuizPageState extends State<QuizPage> {
 
   List<Icon> scorekeeper = [];
 
+  List<String> questionstore = [];
+
   int scoreCount() {
     for (int i = 0; i < scorekeeper.length; i++) {
       if (scorekeeper[i] == scorebuilder[0]) {
@@ -170,13 +184,6 @@ class _QuizPageState extends State<QuizPage> {
     }
     return score;
   }
-
-  List<String> questionstore = [
-    'are you a boy ?',
-    'are you single ?',
-    'are you gay ?',
-    'do you want to have a date ?'
-  ];
 
   int scoreprinter() {
     return score;
