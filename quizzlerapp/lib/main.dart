@@ -105,7 +105,9 @@ class _CreateQuestionState extends State<CreateQuestion> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey[900],
       appBar: AppBar(
+        backgroundColor: Colors.grey[900],
         title: const Center(
           child: Text(
             'Create the quiz !',
@@ -116,6 +118,21 @@ class _CreateQuestionState extends State<CreateQuestion> {
             ),
           ),
         ),
+      ),
+      body: Column(
+        children: [
+          Expanded(
+              child: Text(
+                  'Enter the questions',
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
+              )
+          ),
+
+        ],
       ),
     );
   }
