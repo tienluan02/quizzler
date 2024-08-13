@@ -105,9 +105,7 @@ class CreateQuestion extends StatefulWidget {
 class _CreateQuestionState extends State<CreateQuestion> {
 
   TextEditingController _questionController = TextEditingController();
-  List<String> questionstore = [
-
-  ];
+  List<String> questionstore = [];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -141,9 +139,51 @@ class _CreateQuestionState extends State<CreateQuestion> {
                 )
             ),
           ),
-          TextField(
-            controller: _questionController,
-            decoration: const InputDecoration(labelText: 'Who are you ?'),
+          Padding(
+            padding: const EdgeInsets.all(15.0),
+            child: TextField(
+              controller: _questionController,
+              decoration: const InputDecoration(
+                labelText: 'Your question is here',
+                labelStyle: TextStyle(color: Colors.white),
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.white),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.blue),
+                ),
+              ),
+              style: const TextStyle(color: Colors.white),
+              onSubmitted: (String value) {
+                setState(() {
+                  // Add the question to the list
+                  questionstore.add(value);
+                  // Clear the text field after submission
+                  _questionController.clear();
+                });
+              },
+            ),
+          ),
+          const Text(
+            'Questions added:',
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
+          ),
+          Expanded(
+            child: ListView.builder(
+              itemCount: questionstore.length,
+              itemBuilder: (context, index) {
+                return ListTile(
+                  title: Text(
+                    questionstore[index],
+                    style: const TextStyle(color: Colors.white),
+                  ),
+                );
+              },
+            ),
           ),
         ],
       ),
