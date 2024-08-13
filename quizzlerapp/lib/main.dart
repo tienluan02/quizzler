@@ -29,15 +29,109 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class HomePage extends StatefulWidget {
+class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.grey[900],
+      appBar: AppBar(
+        backgroundColor: Colors.grey[900],
+        title: const Center(
+          child: Text(
+            'Quizzler',
+            style: TextStyle(
+              fontSize: 30.0,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
+          ),
+        ),
+      ),
+      body: Column(
+        children: [
+          const Padding(
+            padding: EdgeInsets.only(left: 20, right: 20, top: 100, bottom: 200),
+            child: Center(
+              child: Text(
+                'Quizzler Time !',
+                style: TextStyle(
+                  fontSize: 50.0,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const CreateQuestion()),
+                );
+              },
+              child: const Text('Create the quiz'),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const QuizPage()),
+                );
+              },
+              child: const Text('Start the quiz'),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 }
 
-class _HomePageState extends State<HomePage> {
+class CreateQuestion extends StatefulWidget {
+  const CreateQuestion({super.key});
 
+  @override
+  State<CreateQuestion> createState() => _CreateQuestionState();
+}
+
+class _CreateQuestionState extends State<CreateQuestion> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Center(
+          child: Text(
+            'Create the quiz !',
+            style: TextStyle(
+              fontSize: 30.0,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+
+class QuizPage extends StatefulWidget {
+  const QuizPage({super.key});
+
+  @override
+  State<QuizPage> createState() => _QuizPageState();
+}
+
+class _QuizPageState extends State<QuizPage> {
+  int score = 0;
+  int questioncounter = 0;
   List<Icon> scorebuilder = [
     const Icon(
       Icons.check,
@@ -49,59 +143,110 @@ class _HomePageState extends State<HomePage> {
     )
   ];
 
+  List<Icon> scorekeeper = [];
+
+  int scoreCount() {
+    for (int i = 0; i < scorekeeper.length; i++) {
+      if (scorekeeper[i] == scorebuilder[0]) {
+        score++;
+      }
+    }
+    return score;
+  }
+
+  List<String> questionstore = [
+    'are you a boy ?',
+    'are you single ?',
+    'are you gay ?',
+    'do you want to have a date ?'
+  ];
+
+  int scoreprinter() {
+    return score;
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Expanded(
-              flex: 5,
-              child: Padding(
-                padding: EdgeInsets.all(10.0),
-                child: Center(
-                  child: Text(
-                    'this is where we show the questions',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 25.0,
+    return Scaffold(
+      backgroundColor: Colors.grey[900],
+      appBar: AppBar(
+        backgroundColor: Colors.grey[900],
+        title: const Text(
+          'Quizzler',
+          style: TextStyle(
+            fontSize: 30.0,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
+        ),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+// Expanded(child: child)
+            Expanded(
+                flex: 5,
+                child: Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Center(
+                    child: Text(
+                      questionstore[questioncounter],
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 30.0,
+                        color: Colors.white,
+                      ),
                     ),
                   ),
+                )),
+            Expanded(
+                child: Padding(
+              padding: const EdgeInsets.all(15.0),
+              child: MaterialButton(
+                color: Colors.green,
+                onPressed: () {
+                  setState(() {
+                    scorekeeper.add(scorebuilder[0]);
+                    questioncounter++;
+                    if (questioncounter == questionstore.length) {
+                      questioncounter = 0;
+                    }
+                  });
+                },
+                child: Center(
+                  child: Text('True'),
                 ),
-              )),
-          Expanded(
-              child: Padding(
-                padding: EdgeInsets.all(15.0),
-                child: MaterialButton(
-                  color: Colors.green,
-                  onPressed: () {},
-                  child: Center(
-                    child: Text('True'),
-                  ),
+              ),
+            )),
+            Expanded(
+                child: Padding(
+              padding: EdgeInsets.all(15.0),
+              child: MaterialButton(
+                color: Colors.red,
+                onPressed: () {
+                  setState(() {
+                    scorekeeper.add(scorebuilder[1]);
+                    questioncounter++;
+                    if (questioncounter == questionstore.length) {
+                      questioncounter = 0;
+                    }
+                  });
+                },
+                child: Center(
+                  child: Text('False'),
                 ),
-              )),
-          Expanded(
-              child: Padding(
-                padding: EdgeInsets.all(15.0),
-                child: MaterialButton(
-                  color: Colors.red,
-                  onPressed: () {},
-                  child: Center(
-                    child: Text('False'),
-                  ),
-                ),
-              )
-          ),
+              ),
+            )),
             Padding(
               padding: const EdgeInsets.only(top: 10.0, bottom: 20),
               child: Row(
-                children: scorebuilder,
-                        ),
+                children: scorekeeper,
+              ),
             ),
-        ],
+          ],
+        ),
       ),
     );
   }
