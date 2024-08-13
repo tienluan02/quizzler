@@ -144,7 +144,7 @@ class _CreateQuestionState extends State<CreateQuestion> {
             child: TextField(
               controller: _questionController,
               decoration: const InputDecoration(
-                labelText: 'Your question is here',
+                labelText: 'Who are you?',
                 labelStyle: TextStyle(color: Colors.white),
                 enabledBorder: OutlineInputBorder(
                   borderSide: BorderSide(color: Colors.white),
