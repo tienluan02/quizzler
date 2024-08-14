@@ -53,7 +53,8 @@ class HomePage extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           const Padding(
-            padding: EdgeInsets.only(left: 20, right: 20, top: 100, bottom: 200),
+            padding:
+                EdgeInsets.only(left: 20, right: 20, top: 100, bottom: 200),
             child: Center(
               child: Text(
                 'Quizzler Time !',
@@ -71,7 +72,8 @@ class HomePage extends StatelessWidget {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const CreateQuestion()),
+                  MaterialPageRoute(
+                      builder: (context) => const CreateQuestion()),
                 );
               },
               child: const Text('Create the quiz'),
@@ -103,9 +105,9 @@ class CreateQuestion extends StatefulWidget {
 }
 
 class _CreateQuestionState extends State<CreateQuestion> {
-
   TextEditingController _questionController = TextEditingController();
   List<String> questionstore = [];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -126,25 +128,24 @@ class _CreateQuestionState extends State<CreateQuestion> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Padding(
-            padding: const EdgeInsets.only(left: 15.0),
+          const Padding(
+            padding: EdgeInsets.only(left: 15.0),
             child: Expanded(
                 child: Text(
-                  'Enter the questions',
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
-                )
-            ),
+              'Enter the questions',
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
+            )),
           ),
           Padding(
             padding: const EdgeInsets.all(15.0),
             child: TextField(
               controller: _questionController,
               decoration: const InputDecoration(
-                labelText: 'Who are you?',
+                labelText: 'Type here',
                 labelStyle: TextStyle(color: Colors.white),
                 enabledBorder: OutlineInputBorder(
                   borderSide: BorderSide(color: Colors.white),
@@ -185,6 +186,19 @@ class _CreateQuestionState extends State<CreateQuestion> {
               },
             ),
           ),
+          Padding(
+              padding: EdgeInsets.all(8.0),
+              child: ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const QuizPage()),
+                  );
+                },
+                child: const Text('Start the quiz'),
+              )
+          )
         ],
       ),
     );
