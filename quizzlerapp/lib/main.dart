@@ -22,9 +22,9 @@ class MyApp extends StatelessWidget {
           ),
           body: const SafeArea(
               child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 10.0),
-            child: HomePage(),
-          ))),
+                padding: EdgeInsets.symmetric(horizontal: 10.0),
+                child: HomePage(),
+              ))),
     );
   }
 }
@@ -34,8 +34,14 @@ class HomePage extends StatelessWidget {
 
   static const List<String> questionstore = [
     'are you a boy',
-  'are you gay',
-  'do you want to have a date with me',
+    'are you gay',
+    'do you want to have a date with me',
+  ];
+
+  static const List<bool> answers = [
+    true,
+    true,
+    true
   ];
 
   @override
@@ -60,12 +66,12 @@ class HomePage extends StatelessWidget {
         children: [
           const Padding(
             padding:
-                EdgeInsets.only(left: 20, right: 20, top: 100, bottom: 200),
+            EdgeInsets.only(left: 20, right: 20, top: 100, bottom: 200),
             child: Center(
               child: Text(
                 'Quizzler Time !',
                 style: TextStyle(
-                  fontSize: 50.0,
+                  fontSize: 30.0,
                   fontWeight: FontWeight.bold,
                   color: Colors.white,
                 ),
@@ -91,7 +97,8 @@ class HomePage extends StatelessWidget {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => QuizPage(questionstore: questionstore)),
+                  MaterialPageRoute(builder: (context) =>
+                      QuizPage(questionstore: questionstore, answers: answers)),
                 );
               },
               child: const Text('Start the quiz'),
@@ -113,6 +120,7 @@ class CreateQuestion extends StatefulWidget {
 class _CreateQuestionState extends State<CreateQuestion> {
   TextEditingController _questionController = TextEditingController();
   List<String> questionstore = [];
+  List<bool> answers = [];
 
   @override
   Widget build(BuildContext context) {
@@ -138,13 +146,13 @@ class _CreateQuestionState extends State<CreateQuestion> {
             padding: EdgeInsets.only(left: 15.0),
             child: Expanded(
                 child: Text(
-              'Enter the questions',
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
-              ),
-            )),
+                  'Enter the questions',
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                )),
           ),
           Padding(
             padding: const EdgeInsets.all(15.0),
@@ -163,13 +171,53 @@ class _CreateQuestionState extends State<CreateQuestion> {
               style: const TextStyle(color: Colors.white),
               onSubmitted: (String value) {
                 setState(() {
-                  // Add the question to the list
                   questionstore.add(value);
-                  // Clear the text field after submission
                   _questionController.clear();
                 });
               },
             ),
+          ),
+          Row(
+            children: [
+              Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.all(15.0),
+                    child: MaterialButton(
+                      color: Colors.green,
+                      onPressed: () {
+                        setState(() {
+                          if (_questionController.text.isNotEmpty) {
+                            questionstore.add(_questionController.text);
+                            answers.add(true);
+                            _questionController.clear();
+                          }
+                        });
+                      },
+                      child: const Center(
+                        child: Text('True'),
+                      ),
+                    ),
+                  )),
+              Expanded(
+                  child: Padding(
+                    padding: EdgeInsets.all(15.0),
+                    child: MaterialButton(
+                      color: Colors.red,
+                      onPressed: () {
+                        setState(() {
+                          if (_questionController.text.isNotEmpty) {
+                            questionstore.add(_questionController.text);
+                            answers.add(false);
+                            _questionController.clear();
+                          }
+                        });
+                      },
+                      child: const Center(
+                        child: Text('False'),
+                      ),
+                    ),
+                  )),
+            ],
           ),
           const Text(
             'Questions added:',
@@ -185,7 +233,7 @@ class _CreateQuestionState extends State<CreateQuestion> {
               itemBuilder: (context, index) {
                 return ListTile(
                   title: Text(
-                    questionstore[index],
+                    questionstore[index] + ' - ' + answers[index].toString(),
                     style: const TextStyle(color: Colors.white),
                   ),
                 );
@@ -199,7 +247,8 @@ class _CreateQuestionState extends State<CreateQuestion> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => QuizPage(questionstore: questionstore)),
+                        builder: (context) =>
+                            QuizPage(questionstore: questionstore, answers: answers)),
                   );
                 },
                 child: const Text('Start the quiz'),
@@ -213,7 +262,9 @@ class _CreateQuestionState extends State<CreateQuestion> {
 
 class QuizPage extends StatefulWidget {
   final List<String> questionstore;
-  const QuizPage({super.key, required this.questionstore});
+  final List<bool> answers;
+
+  const QuizPage({super.key, required this.questionstore, required this.answers});
 
   @override
   State<QuizPage> createState() => _QuizPageState();
@@ -286,42 +337,50 @@ class _QuizPageState extends State<QuizPage> {
                 )),
             Expanded(
                 child: Padding(
-              padding: const EdgeInsets.all(15.0),
-              child: MaterialButton(
-                color: Colors.green,
-                onPressed: () {
-                  setState(() {
-                    scorekeeper.add(scorebuilder[0]);
-                    questioncounter++;
-                    if (questioncounter == widget.questionstore.length) {
-                      questioncounter = 0;
-                    }
-                  });
-                },
-                child: const Center(
-                  child: Text('True'),
-                ),
-              ),
-            )),
+                  padding: const EdgeInsets.all(15.0),
+                  child: MaterialButton(
+                    color: Colors.green,
+                    onPressed: () {
+                      setState(() {
+                        if (widget.answers[questioncounter] == true) {
+                          scorekeeper.add(scorebuilder[0]);
+                        } else {
+                          scorekeeper.add(scorebuilder[1]);
+                        }
+                        questioncounter++;
+                        if (questioncounter == widget.questionstore.length) {
+                          questioncounter = 0;
+                        }
+                      });
+                    },
+                    child: const Center(
+                      child: Text('True'),
+                    ),
+                  ),
+                )),
             Expanded(
                 child: Padding(
-              padding: EdgeInsets.all(15.0),
-              child: MaterialButton(
-                color: Colors.red,
-                onPressed: () {
-                  setState(() {
-                    scorekeeper.add(scorebuilder[1]);
-                    questioncounter++;
-                    if (questioncounter == widget.questionstore.length) {
-                      questioncounter = 0;
-                    }
-                  });
-                },
-                child: const Center(
-                  child: Text('False'),
-                ),
-              ),
-            )),
+                  padding: EdgeInsets.all(15.0),
+                  child: MaterialButton(
+                    color: Colors.red,
+                    onPressed: () {
+                      setState(() {
+                        if (widget.answers[questioncounter] == false) {
+                          scorekeeper.add(scorebuilder[0]);
+                        } else {
+                          scorekeeper.add(scorebuilder[1]);
+                        }
+                        questioncounter++;
+                        if (questioncounter == widget.questionstore.length) {
+                          questioncounter = 0;
+                        }
+                      });
+                    },
+                    child: const Center(
+                      child: Text('False'),
+                    ),
+                  ),
+                )),
             Padding(
               padding: const EdgeInsets.only(top: 10.0, bottom: 20),
               child: Row(
