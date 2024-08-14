@@ -32,6 +32,12 @@ class MyApp extends StatelessWidget {
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
+  static const List<String> questionstore = [
+    'are you a boy',
+  'are you gay',
+  'do you want to have a date with me',
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -85,7 +91,7 @@ class HomePage extends StatelessWidget {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const QuizPage()),
+                  MaterialPageRoute(builder: (context) => QuizPage(questionstore: questionstore)),
                 );
               },
               child: const Text('Start the quiz'),
@@ -193,7 +199,7 @@ class _CreateQuestionState extends State<CreateQuestion> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const QuizPage()),
+                        builder: (context) => QuizPage(questionstore: questionstore)),
                   );
                 },
                 child: const Text('Start the quiz'),
@@ -206,7 +212,8 @@ class _CreateQuestionState extends State<CreateQuestion> {
 }
 
 class QuizPage extends StatefulWidget {
-  const QuizPage({super.key});
+  final List<String> questionstore;
+  const QuizPage({super.key, required this.questionstore});
 
   @override
   State<QuizPage> createState() => _QuizPageState();
@@ -227,8 +234,6 @@ class _QuizPageState extends State<QuizPage> {
   ];
 
   List<Icon> scorekeeper = [];
-
-  List<String> questionstore = [];
 
   int scoreCount() {
     for (int i = 0; i < scorekeeper.length; i++) {
@@ -270,7 +275,7 @@ class _QuizPageState extends State<QuizPage> {
                   padding: const EdgeInsets.all(10.0),
                   child: Center(
                     child: Text(
-                      questionstore[questioncounter],
+                      widget.questionstore[questioncounter],
                       style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 30.0,
@@ -288,12 +293,12 @@ class _QuizPageState extends State<QuizPage> {
                   setState(() {
                     scorekeeper.add(scorebuilder[0]);
                     questioncounter++;
-                    if (questioncounter == questionstore.length) {
+                    if (questioncounter == widget.questionstore.length) {
                       questioncounter = 0;
                     }
                   });
                 },
-                child: Center(
+                child: const Center(
                   child: Text('True'),
                 ),
               ),
@@ -307,12 +312,12 @@ class _QuizPageState extends State<QuizPage> {
                   setState(() {
                     scorekeeper.add(scorebuilder[1]);
                     questioncounter++;
-                    if (questioncounter == questionstore.length) {
+                    if (questioncounter == widget.questionstore.length) {
                       questioncounter = 0;
                     }
                   });
                 },
-                child: Center(
+                child: const Center(
                   child: Text('False'),
                 ),
               ),
