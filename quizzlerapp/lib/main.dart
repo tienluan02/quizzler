@@ -169,12 +169,6 @@ class _CreateQuestionState extends State<CreateQuestion> {
                 ),
               ),
               style: const TextStyle(color: Colors.white),
-              onSubmitted: (String value) {
-                setState(() {
-                  questionstore.add(value);
-                  _questionController.clear();
-                });
-              },
             ),
           ),
           Row(
@@ -295,10 +289,6 @@ class _QuizPageState extends State<QuizPage> {
     return score;
   }
 
-  int scoreprinter() {
-    return score;
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -319,7 +309,19 @@ class _QuizPageState extends State<QuizPage> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-// Expanded(child: child)
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end ,
+              children: [
+                Text(
+                  'this is the point: $score',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 30,
+                    color: Colors.white,
+                  )
+                ),
+              ],
+            ),
             Expanded(
                 flex: 5,
                 child: Padding(
@@ -344,6 +346,7 @@ class _QuizPageState extends State<QuizPage> {
                       setState(() {
                         if (widget.answers[questioncounter] == true) {
                           scorekeeper.add(scorebuilder[0]);
+                          score++;
                         } else {
                           scorekeeper.add(scorebuilder[1]);
                         }
@@ -367,6 +370,7 @@ class _QuizPageState extends State<QuizPage> {
                       setState(() {
                         if (widget.answers[questioncounter] == false) {
                           scorekeeper.add(scorebuilder[0]);
+                          score++;
                         } else {
                           scorekeeper.add(scorebuilder[1]);
                         }
