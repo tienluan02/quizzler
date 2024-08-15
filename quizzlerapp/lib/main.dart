@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+import 'package:flutter/widgets.dart';
 
 void main() {
   runApp(
@@ -116,8 +117,10 @@ class CreateQuestion extends StatefulWidget {
 
 class _CreateQuestionState extends State<CreateQuestion> {
   TextEditingController _questionController = TextEditingController();
+  TextEditingController _studentName = TextEditingController();
   List<String> questionstore = [];
   List<bool> answers = [];
+  String name = '';
 
   @override
   Widget build(BuildContext context) {
@@ -139,6 +142,38 @@ class _CreateQuestionState extends State<CreateQuestion> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
+          Padding(
+            padding: EdgeInsets.all(0),
+            child: Text(
+              'Enter your name:',
+              style: TextStyle(
+                fontSize: 23.0,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(15.0),
+            child: TextField(
+              controller: _studentName,
+              decoration: const InputDecoration(
+                labelText: 'Your name',
+                labelStyle: TextStyle(color: Colors.white),
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.white),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.blue),
+                ),
+              ),
+              style: const TextStyle(color: Colors.white),
+              onSubmitted: (String value) {
+                setState(() {
+                  name = value;
+                });
+              },
+            ),
+          ),
           const Padding(
             padding: EdgeInsets.only(left: 15.0),
             child: Expanded(
@@ -209,6 +244,14 @@ class _CreateQuestionState extends State<CreateQuestion> {
                 ),
               )),
             ],
+          ),
+          Text (
+            'Your name: ' + name,
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
           ),
           const Text(
             'Questions added:',
@@ -311,10 +354,10 @@ class _QuizPageState extends State<QuizPage> {
               children: [
                 Padding(
                   padding: const EdgeInsets.only(right: 8.0),
-                  child: Text('this is the point: $score',
+                  child: Text('your points: $score',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        fontSize: 30,
+                        fontSize: 25,
                         color: Colors.white,
                       )),
                 ),
