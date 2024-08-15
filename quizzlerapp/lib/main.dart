@@ -22,9 +22,9 @@ class MyApp extends StatelessWidget {
           ),
           body: const SafeArea(
               child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 10.0),
-                child: HomePage(),
-              ))),
+            padding: EdgeInsets.symmetric(horizontal: 10.0),
+            child: HomePage(),
+          ))),
     );
   }
 }
@@ -38,11 +38,7 @@ class HomePage extends StatelessWidget {
     'do you want to have a date with me',
   ];
 
-  static const List<bool> answers = [
-    true,
-    true,
-    true
-  ];
+  static const List<bool> answers = [true, true, true];
 
   @override
   Widget build(BuildContext context) {
@@ -66,7 +62,7 @@ class HomePage extends StatelessWidget {
         children: [
           const Padding(
             padding:
-            EdgeInsets.only(left: 20, right: 20, top: 100, bottom: 200),
+                EdgeInsets.only(left: 20, right: 20, top: 100, bottom: 200),
             child: Center(
               child: Text(
                 'Quizzler Time !',
@@ -97,8 +93,9 @@ class HomePage extends StatelessWidget {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) =>
-                      QuizPage(questionstore: questionstore, answers: answers)),
+                  MaterialPageRoute(
+                      builder: (context) => QuizPage(
+                          questionstore: questionstore, answers: answers)),
                 );
               },
               child: const Text('Start the quiz'),
@@ -146,13 +143,13 @@ class _CreateQuestionState extends State<CreateQuestion> {
             padding: EdgeInsets.only(left: 15.0),
             child: Expanded(
                 child: Text(
-                  'Enter the questions',
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
-                )),
+              'Enter the questions',
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
+            )),
           ),
           Padding(
             padding: const EdgeInsets.all(15.0),
@@ -175,42 +172,42 @@ class _CreateQuestionState extends State<CreateQuestion> {
             children: [
               Expanded(
                   child: Padding(
-                    padding: const EdgeInsets.all(15.0),
-                    child: MaterialButton(
-                      color: Colors.green,
-                      onPressed: () {
-                        setState(() {
-                          if (_questionController.text.isNotEmpty) {
-                            questionstore.add(_questionController.text);
-                            answers.add(true);
-                            _questionController.clear();
-                          }
-                        });
-                      },
-                      child: const Center(
-                        child: Text('True'),
-                      ),
-                    ),
-                  )),
+                padding: const EdgeInsets.all(15.0),
+                child: MaterialButton(
+                  color: Colors.green,
+                  onPressed: () {
+                    setState(() {
+                      if (_questionController.text.isNotEmpty) {
+                        questionstore.add(_questionController.text);
+                        answers.add(true);
+                        _questionController.clear();
+                      }
+                    });
+                  },
+                  child: const Center(
+                    child: Text('True'),
+                  ),
+                ),
+              )),
               Expanded(
                   child: Padding(
-                    padding: EdgeInsets.all(15.0),
-                    child: MaterialButton(
-                      color: Colors.red,
-                      onPressed: () {
-                        setState(() {
-                          if (_questionController.text.isNotEmpty) {
-                            questionstore.add(_questionController.text);
-                            answers.add(false);
-                            _questionController.clear();
-                          }
-                        });
-                      },
-                      child: const Center(
-                        child: Text('False'),
-                      ),
-                    ),
-                  )),
+                padding: EdgeInsets.all(15.0),
+                child: MaterialButton(
+                  color: Colors.red,
+                  onPressed: () {
+                    setState(() {
+                      if (_questionController.text.isNotEmpty) {
+                        questionstore.add(_questionController.text);
+                        answers.add(false);
+                        _questionController.clear();
+                      }
+                    });
+                  },
+                  child: const Center(
+                    child: Text('False'),
+                  ),
+                ),
+              )),
             ],
           ),
           const Text(
@@ -241,13 +238,12 @@ class _CreateQuestionState extends State<CreateQuestion> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) =>
-                            QuizPage(questionstore: questionstore, answers: answers)),
+                        builder: (context) => QuizPage(
+                            questionstore: questionstore, answers: answers)),
                   );
                 },
                 child: const Text('Start the quiz'),
-              )
-          )
+              ))
         ],
       ),
     );
@@ -258,7 +254,8 @@ class QuizPage extends StatefulWidget {
   final List<String> questionstore;
   final List<bool> answers;
 
-  const QuizPage({super.key, required this.questionstore, required this.answers});
+  const QuizPage(
+      {super.key, required this.questionstore, required this.answers});
 
   @override
   State<QuizPage> createState() => _QuizPageState();
@@ -310,15 +307,16 @@ class _QuizPageState extends State<QuizPage> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Row(
-              mainAxisAlignment: MainAxisAlignment.end ,
+              mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                Text(
-                  'this is the point: $score',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 30,
-                    color: Colors.white,
-                  )
+                Padding(
+                  padding: const EdgeInsets.only(right: 8.0),
+                  child: Text('this is the point: $score',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 30,
+                        color: Colors.white,
+                      )),
                 ),
               ],
             ),
@@ -339,52 +337,52 @@ class _QuizPageState extends State<QuizPage> {
                 )),
             Expanded(
                 child: Padding(
-                  padding: const EdgeInsets.all(15.0),
-                  child: MaterialButton(
-                    color: Colors.green,
-                    onPressed: () {
-                      setState(() {
-                        if (widget.answers[questioncounter] == true) {
-                          scorekeeper.add(scorebuilder[0]);
-                          score++;
-                        } else {
-                          scorekeeper.add(scorebuilder[1]);
-                        }
-                        questioncounter++;
-                        if (questioncounter == widget.questionstore.length) {
-                          questioncounter = 0;
-                        }
-                      });
-                    },
-                    child: const Center(
-                      child: Text('True'),
-                    ),
-                  ),
-                )),
+              padding: const EdgeInsets.all(15.0),
+              child: MaterialButton(
+                color: Colors.green,
+                onPressed: () {
+                  setState(() {
+                    if (widget.answers[questioncounter] == true) {
+                      scorekeeper.add(scorebuilder[0]);
+                      score++;
+                    } else {
+                      scorekeeper.add(scorebuilder[1]);
+                    }
+                    questioncounter++;
+                    if (questioncounter == widget.questionstore.length) {
+                      questioncounter = 0;
+                    }
+                  });
+                },
+                child: const Center(
+                  child: Text('True'),
+                ),
+              ),
+            )),
             Expanded(
                 child: Padding(
-                  padding: EdgeInsets.all(15.0),
-                  child: MaterialButton(
-                    color: Colors.red,
-                    onPressed: () {
-                      setState(() {
-                        if (widget.answers[questioncounter] == false) {
-                          scorekeeper.add(scorebuilder[0]);
-                          score++;
-                        } else {
-                          scorekeeper.add(scorebuilder[1]);
-                        }
-                        questioncounter++;
-                        if (questioncounter == widget.questionstore.length) {
-                          questioncounter = 0;
-                        }
-                      });
-                    },
-                    child: const Center(
-                      child: Text('False'),
-                    ),
-                  ),
-                )),
+              padding: EdgeInsets.all(15.0),
+              child: MaterialButton(
+                color: Colors.red,
+                onPressed: () {
+                  setState(() {
+                    if (widget.answers[questioncounter] == false) {
+                      scorekeeper.add(scorebuilder[0]);
+                      score++;
+                    } else {
+                      scorekeeper.add(scorebuilder[1]);
+                    }
+                    questioncounter++;
+                    if (questioncounter == widget.questionstore.length) {
+                      questioncounter = 0;
+                    }
+                  });
+                },
+                child: const Center(
+                  child: Text('False'),
+                ),
+              ),
+            )),
             Padding(
               padding: const EdgeInsets.only(top: 10.0, bottom: 20),
               child: Row(
