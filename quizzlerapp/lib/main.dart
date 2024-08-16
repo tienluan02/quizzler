@@ -222,7 +222,6 @@ class _studentNameState extends State<studentName> {
 
 
 class CreateQuestion extends StatefulWidget {
-  final String name;
   const CreateQuestion({super.key});
 
   @override
