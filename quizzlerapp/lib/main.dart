@@ -95,8 +95,8 @@ class HomePage extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => QuizPage(
-                          questionstore: questionstore, answers: answers)),
+                      builder: (context) => const studentName()
+                  ),
                 );
               },
               child: const Text('Start the quiz'),
@@ -108,7 +108,121 @@ class HomePage extends StatelessWidget {
   }
 }
 
+class studentName extends StatefulWidget {
+  const studentName({super.key});
+
+  @override
+  State<studentName> createState() => _studentNameState();
+}
+
+class _studentNameState extends State<studentName> {
+  TextEditingController _studentName = TextEditingController();
+  String name = '';
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.grey[900],
+      appBar: AppBar(
+        backgroundColor: Colors.grey[900],
+        title: const Center(
+          child: Text(
+            'Quizzler',
+            style: TextStyle(
+              fontSize: 30.0,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
+          ),
+        ),
+      ),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          Column(
+            children: [
+              const Text(
+                'Please enter your name: ',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 25,
+                  color: Colors.white,
+                ),
+              ),
+              TextField(
+                controller: _studentName,
+                decoration: const InputDecoration(
+                  labelText: 'Your name',
+                  labelStyle: TextStyle(color: Colors.white),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.white),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.blue),
+                  ),
+                ),
+                style: const TextStyle(color: Colors.white),
+                onSubmitted: (String value) {
+                  setState(() {
+                    name = value;
+                  });
+                },
+              ),
+
+            ],
+          ),
+          Column(
+            children: [
+              const Text(
+                'Please enter your class: ',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 25,
+                  color: Colors.white,
+                ),
+              ),
+              TextField(
+                controller: _studentName,
+                decoration: const InputDecoration(
+                  labelText: 'Your class',
+                  labelStyle: TextStyle(color: Colors.white),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.white),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.blue),
+                  ),
+                ),
+                style: const TextStyle(color: Colors.white),
+                onSubmitted: (String value) {
+                  setState(() {
+                    name = value;
+                  });
+                },
+              )
+            ],
+          ),
+          Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const CreateQuestion()),
+                );
+              },
+              child: const Text('Create the quiz'),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+
 class CreateQuestion extends StatefulWidget {
+  final String name;
   const CreateQuestion({super.key});
 
   @override
@@ -116,8 +230,8 @@ class CreateQuestion extends StatefulWidget {
 }
 
 class _CreateQuestionState extends State<CreateQuestion> {
-  TextEditingController _questionController = TextEditingController();
-  TextEditingController _studentName = TextEditingController();
+  final TextEditingController _questionController = TextEditingController();
+  final TextEditingController _studentName = TextEditingController();
   List<String> questionstore = [];
   List<bool> answers = [];
   String name = '';
@@ -142,7 +256,7 @@ class _CreateQuestionState extends State<CreateQuestion> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Padding(
+          const Padding(
             padding: EdgeInsets.all(0),
             child: Text(
               'Enter your name:',
@@ -247,7 +361,7 @@ class _CreateQuestionState extends State<CreateQuestion> {
           ),
           Text (
             'Your name: ' + name,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,
               color: Colors.white,
@@ -355,7 +469,7 @@ class _QuizPageState extends State<QuizPage> {
                 Padding(
                   padding: const EdgeInsets.only(right: 8.0),
                   child: Text('your points: $score',
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 25,
                         color: Colors.white,
