@@ -59,7 +59,6 @@ class HomePage extends StatelessWidget {
         ),
       ),
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           const Padding(
             padding:
@@ -94,9 +93,7 @@ class HomePage extends StatelessWidget {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(
-                      builder: (context) => const studentName()
-                  ),
+                  MaterialPageRoute(builder: (context) => const studentName()),
                 );
               },
               child: const Text('You are a student ?'),
@@ -118,6 +115,7 @@ class studentName extends StatefulWidget {
 class _studentNameState extends State<studentName> {
   TextEditingController _studentName = TextEditingController();
   String name = '';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -167,7 +165,6 @@ class _studentNameState extends State<studentName> {
                   });
                 },
               ),
-
             ],
           ),
           Column(
@@ -220,7 +217,6 @@ class _studentNameState extends State<studentName> {
   }
 }
 
-
 class CreateQuestion extends StatefulWidget {
   const CreateQuestion({super.key});
 
@@ -252,56 +248,51 @@ class _CreateQuestionState extends State<CreateQuestion> {
           ),
         ),
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          const Padding(
-            padding: EdgeInsets.all(0),
-            child: Text(
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Text(
               'Enter your name:',
               style: TextStyle(
                 fontSize: 23.0,
                 fontWeight: FontWeight.bold,
                 color: Colors.white,
-              ),),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(15.0),
-            child: TextField(
-              controller: _studentName,
-              decoration: const InputDecoration(
-                labelText: 'Your name',
-                labelStyle: TextStyle(color: Colors.white),
-                enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.white),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.blue),
-                ),
               ),
-              style: const TextStyle(color: Colors.white),
-              onSubmitted: (String value) {
-                setState(() {
-                  name = value;
-                });
-              },
             ),
-          ),
-          const Padding(
-            padding: EdgeInsets.only(left: 15.0),
-            child: Expanded(
-                child: Text(
-              'Enter the questions',
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
+            Padding(
+              padding: const EdgeInsets.all(15.0),
+              child: TextField(
+                controller: _studentName,
+                decoration: const InputDecoration(
+                  labelText: 'Your name',
+                  labelStyle: TextStyle(color: Colors.white),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.white),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.blue),
+                  ),
+                ),
+                style: const TextStyle(color: Colors.white),
+                onSubmitted: (String value) {
+                  setState(() {
+                    name = value;
+                  });
+                },
               ),
-            )),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(15.0),
-            child: TextField(
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 5.0, bottom: 15),
+              child: Text(
+                'Enter the questions',
+                style: TextStyle(
+                  fontSize: 23,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+            TextField(
               controller: _questionController,
               decoration: const InputDecoration(
                 labelText: 'Type here',
@@ -315,92 +306,95 @@ class _CreateQuestionState extends State<CreateQuestion> {
               ),
               style: const TextStyle(color: Colors.white),
             ),
-          ),
-          Row(
-            children: [
-              Expanded(
-                  child: Padding(
-                padding: const EdgeInsets.all(15.0),
-                child: MaterialButton(
-                  color: Colors.green,
-                  onPressed: () {
-                    setState(() {
-                      if (_questionController.text.isNotEmpty) {
-                        questionstore.add(_questionController.text);
-                        answers.add(true);
-                        _questionController.clear();
-                      }
-                    });
-                  },
-                  child: const Center(
-                    child: Text('True'),
-                  ),
-                ),
-              )),
-              Expanded(
-                  child: Padding(
-                padding: EdgeInsets.all(15.0),
-                child: MaterialButton(
-                  color: Colors.red,
-                  onPressed: () {
-                    setState(() {
-                      if (_questionController.text.isNotEmpty) {
-                        questionstore.add(_questionController.text);
-                        answers.add(false);
-                        _questionController.clear();
-                      }
-                    });
-                  },
-                  child: const Center(
-                    child: Text('False'),
-                  ),
-                ),
-              )),
-            ],
-          ),
-          Text (
-            'Your name: ' + _studentName.text,
-            style: const TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
+            Row(
+              children: [
+                Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.all(15.0),
+                      child: MaterialButton(
+                        color: Colors.green,
+                        onPressed: () {
+                          setState(() {
+                            if (_questionController.text.isNotEmpty) {
+                              questionstore.add(_questionController.text);
+                              answers.add(true);
+                              _questionController.clear();
+                            }
+                          });
+                        },
+                        child: const Center(
+                          child: Text('True'),
+                        ),
+                      ),
+                    )),
+                Expanded(
+                    child: Padding(
+                      padding: EdgeInsets.all(15.0),
+                      child: MaterialButton(
+                        color: Colors.red,
+                        onPressed: () {
+                          setState(() {
+                            if (_questionController.text.isNotEmpty) {
+                              questionstore.add(_questionController.text);
+                              answers.add(false);
+                              _questionController.clear();
+                            }
+                          });
+                        },
+                        child: const Center(
+                          child: Text('False'),
+                        ),
+                      ),
+                    )),
+              ],
             ),
-          ),
-          const Text(
-            'Questions added:',
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
+            Text(
+              'Your name: ' + _studentName.text,
+              style: const TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
             ),
-          ),
-          Expanded(
-            child: ListView.builder(
-              itemCount: questionstore.length,
-              itemBuilder: (context, index) {
-                return ListTile(
-                  title: Text(
-                    questionstore[index] + ' - ' + answers[index].toString(),
-                    style: const TextStyle(color: Colors.white),
-                  ),
-                );
-              },
+            const Text(
+              'Questions added:',
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
             ),
-          ),
-          Padding(
-              padding: EdgeInsets.all(8.0),
-              child: ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => QuizPage(
-                            questionstore: questionstore, answers: answers, name: name)),
+            SizedBox(
+              height: 200,  // Adjust this height based on your needs
+              child: ListView.builder(
+                itemCount: questionstore.length,
+                itemBuilder: (context, index) {
+                  return ListTile(
+                    title: Text(
+                      questionstore[index] + ' - ' + answers[index].toString(),
+                      style: const TextStyle(color: Colors.white),
+                    ),
                   );
                 },
-                child: const Text('Start the quiz'),
-              ))
-        ],
+              ),
+            ),
+            Padding(
+                padding: EdgeInsets.all(8.0),
+                child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => QuizPage(
+                              questionstore: questionstore,
+                              answers: answers,
+                              name: name)),
+                    );
+                  },
+                  child: const Text('Start the quiz'),
+                ))
+          ],
+        ),
       ),
     );
   }
@@ -412,7 +406,10 @@ class QuizPage extends StatefulWidget {
   final String name;
 
   const QuizPage(
-      {super.key, required this.questionstore, required this.answers, required this.name});
+      {super.key,
+      required this.questionstore,
+      required this.answers,
+      required this.name});
 
   @override
   State<QuizPage> createState() => _QuizPageState();
