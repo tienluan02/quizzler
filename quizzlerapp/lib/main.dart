@@ -359,7 +359,7 @@ class _CreateQuestionState extends State<CreateQuestion> {
             ],
           ),
           Text (
-            'Your name: ' + name,
+            'Your name: ' + _studentName.text,
             style: const TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,
@@ -395,7 +395,7 @@ class _CreateQuestionState extends State<CreateQuestion> {
                     context,
                     MaterialPageRoute(
                         builder: (context) => QuizPage(
-                            questionstore: questionstore, answers: answers)),
+                            questionstore: questionstore, answers: answers, name: name)),
                   );
                 },
                 child: const Text('Start the quiz'),
@@ -409,9 +409,10 @@ class _CreateQuestionState extends State<CreateQuestion> {
 class QuizPage extends StatefulWidget {
   final List<String> questionstore;
   final List<bool> answers;
+  final String name;
 
   const QuizPage(
-      {super.key, required this.questionstore, required this.answers});
+      {super.key, required this.questionstore, required this.answers, required this.name});
 
   @override
   State<QuizPage> createState() => _QuizPageState();
@@ -463,16 +464,31 @@ class _QuizPageState extends State<QuizPage> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Row(
-              mainAxisAlignment: MainAxisAlignment.end,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Padding(
-                  padding: const EdgeInsets.only(right: 8.0),
-                  child: Text('your points: $score',
-                      style: const TextStyle(
+                SafeArea(
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 8.0),
+                    child: Text(
+                      widget.name,
+                      style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 25,
                         color: Colors.white,
-                      )),
+                      ),
+                    ),
+                  ),
+                ),
+                SafeArea(
+                  child: Padding(
+                    padding: const EdgeInsets.only(right: 8.0),
+                    child: Text('your points: $score',
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 25,
+                          color: Colors.white,
+                        )),
+                  ),
                 ),
               ],
             ),
