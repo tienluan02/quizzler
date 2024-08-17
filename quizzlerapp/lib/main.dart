@@ -85,7 +85,7 @@ class HomePage extends StatelessWidget {
                       builder: (context) => const CreateQuestion()),
                 );
               },
-              child: const Text('Create the quiz'),
+              child: const Text('You are a teacher ?'),
             ),
           ),
           Padding(
@@ -99,7 +99,7 @@ class HomePage extends StatelessWidget {
                   ),
                 );
               },
-              child: const Text('Start the quiz'),
+              child: const Text('You are a student ?'),
             ),
           ),
         ],
@@ -211,7 +211,7 @@ class _studentNameState extends State<studentName> {
                       builder: (context) => const CreateQuestion()),
                 );
               },
-              child: const Text('Create the quiz'),
+              child: const Text('Enter the quiz'),
             ),
           ),
         ],
