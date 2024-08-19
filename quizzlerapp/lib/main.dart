@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/widgets.dart';
+import 'package:quizzlerapp/question.dart';
 
 void main() {
   runApp(
@@ -227,8 +228,7 @@ class CreateQuestion extends StatefulWidget {
 class _CreateQuestionState extends State<CreateQuestion> {
   final TextEditingController _questionController = TextEditingController();
   final TextEditingController _studentName = TextEditingController();
-  List<String> questionstore = [];
-  List<bool> answers = [];
+  List<Question> questionstore = [];
   String name = '';
 
   @override
@@ -251,7 +251,7 @@ class _CreateQuestionState extends State<CreateQuestion> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Text(
+            const Text(
               'Enter your name:',
               style: TextStyle(
                 fontSize: 23.0,
@@ -281,8 +281,8 @@ class _CreateQuestionState extends State<CreateQuestion> {
                 },
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.only(top: 5.0, bottom: 15),
+            const Padding(
+              padding: EdgeInsets.only(top: 5.0, bottom: 15),
               child: Text(
                 'Enter the questions',
                 style: TextStyle(
@@ -316,8 +316,7 @@ class _CreateQuestionState extends State<CreateQuestion> {
                         onPressed: () {
                           setState(() {
                             if (_questionController.text.isNotEmpty) {
-                              questionstore.add(_questionController.text);
-                              answers.add(true);
+                              questionstore.add(Question(question: _questionController.text, answer: true));
                               _questionController.clear();
                             }
                           });
@@ -335,8 +334,7 @@ class _CreateQuestionState extends State<CreateQuestion> {
                         onPressed: () {
                           setState(() {
                             if (_questionController.text.isNotEmpty) {
-                              questionstore.add(_questionController.text);
-                              answers.add(false);
+                              questionstore.add(Question(question: _questionController.text, answer: false));
                               _questionController.clear();
                             }
                           });
@@ -371,7 +369,7 @@ class _CreateQuestionState extends State<CreateQuestion> {
                 itemBuilder: (context, index) {
                   return ListTile(
                     title: Text(
-                      questionstore[index] + ' - ' + answers[index].toString(),
+                      questionstore[index].questionText + ' - ' + questionstore[index].questionAnswer.toString(),
                       style: const TextStyle(color: Colors.white),
                     ),
                   );
@@ -386,8 +384,7 @@ class _CreateQuestionState extends State<CreateQuestion> {
                       context,
                       MaterialPageRoute(
                           builder: (context) => QuizPage(
-                              questionstore: questionstore,
-                              answers: answers,
+                            questionstore: questionstore,
                               name: name)),
                     );
                   },
@@ -401,14 +398,12 @@ class _CreateQuestionState extends State<CreateQuestion> {
 }
 
 class QuizPage extends StatefulWidget {
-  final List<String> questionstore;
-  final List<bool> answers;
+  final List<Question> questionstore;
   final String name;
 
   const QuizPage(
       {super.key,
       required this.questionstore,
-      required this.answers,
       required this.name});
 
   @override
@@ -495,7 +490,7 @@ class _QuizPageState extends State<QuizPage> {
                   padding: const EdgeInsets.all(10.0),
                   child: Center(
                     child: Text(
-                      widget.questionstore[questioncounter],
+                      widget.questionstore[questioncounter].questionText,
                       style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 30.0,
@@ -511,7 +506,7 @@ class _QuizPageState extends State<QuizPage> {
                 color: Colors.green,
                 onPressed: () {
                   setState(() {
-                    if (widget.answers[questioncounter] == true) {
+                    if (widget.questionstore[questioncounter].questionAnswer == true) {
                       scorekeeper.add(scorebuilder[0]);
                       score++;
                     } else {
@@ -535,7 +530,7 @@ class _QuizPageState extends State<QuizPage> {
                 color: Colors.red,
                 onPressed: () {
                   setState(() {
-                    if (widget.answers[questioncounter] == false) {
+                    if (widget.questionstore[questioncounter].questionAnswer == false) {
                       scorekeeper.add(scorebuilder[0]);
                       score++;
                     } else {
