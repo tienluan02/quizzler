@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import 'question.dart';
 
 class QuizBrain {
+  int _score = 0;
+  int _questioncounter = 0;
+
   List<Question> questionstore = [
     Question(question: 'are you a boy ?',answer: true),
     Question(question: 'are you gay ?',answer: true),
@@ -22,5 +25,25 @@ class QuizBrain {
         color: Colors.white,
       ),
     );
+  }
+
+  int getScore() {
+    return _score;
+  }
+
+  int getQuestionNumber() {
+    return _questioncounter;
+  }
+
+  void setQuestionNumber(int questionCounter) {
+    this._questioncounter = questionCounter;
+  }
+
+  void increaseScore() {
+    _score++;
+  }
+
+  void nextQuestion() {
+    _questioncounter++;
   }
 }

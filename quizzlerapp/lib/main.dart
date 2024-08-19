@@ -340,8 +340,7 @@ class QuizPage extends StatefulWidget {
 }
 
 class _QuizPageState extends State<QuizPage> {
-  int score = 0;
-  int questioncounter = 0;
+
   List<Icon> scorebuilder = [
     const Icon(
       Icons.check,
@@ -358,10 +357,10 @@ class _QuizPageState extends State<QuizPage> {
   int scoreCount() {
     for (int i = 0; i < scorekeeper.length; i++) {
       if (scorekeeper[i] == scorebuilder[0]) {
-        score++;
+        quizBrain.increaseScore();
       }
     }
-    return score;
+    return quizBrain.getScore();
   }
 
   @override
@@ -389,7 +388,7 @@ class _QuizPageState extends State<QuizPage> {
                 SafeArea(
                   child: Padding(
                     padding: const EdgeInsets.only(right: 8.0),
-                    child: quizBrain.createText('your points: $score', 25)
+                    child: quizBrain.createText('your points: '+ quizBrain.getScore().toString(), 25)
                   ),
                 ),
               ],
@@ -399,7 +398,7 @@ class _QuizPageState extends State<QuizPage> {
                 child: Padding(
                   padding: const EdgeInsets.all(10.0),
                   child: Center(
-                    child: quizBrain.createText(widget.questionstore[questioncounter].questionText, 30),
+                    child: quizBrain.createText(widget.questionstore[quizBrain.getQuestionNumber()].questionText, 30),
                   ),
                 )),
             Expanded(
@@ -409,15 +408,15 @@ class _QuizPageState extends State<QuizPage> {
                 color: Colors.green,
                 onPressed: () {
                   setState(() {
-                    if (widget.questionstore[questioncounter].questionAnswer == true) {
+                    if (widget.questionstore[quizBrain.getQuestionNumber()].questionAnswer == true) {
                       scorekeeper.add(scorebuilder[0]);
-                      score++;
+                      quizBrain.increaseScore();
                     } else {
                       scorekeeper.add(scorebuilder[1]);
                     }
-                    questioncounter++;
-                    if (questioncounter == widget.questionstore.length) {
-                      questioncounter = 0;
+                    quizBrain.nextQuestion();
+                    if (quizBrain.getQuestionNumber() == widget.questionstore.length) {
+                      quizBrain.setQuestionNumber(0);
                     }
                   });
                 },
@@ -433,15 +432,15 @@ class _QuizPageState extends State<QuizPage> {
                 color: Colors.red,
                 onPressed: () {
                   setState(() {
-                    if (widget.questionstore[questioncounter].questionAnswer == false) {
+                    if (widget.questionstore[quizBrain.getQuestionNumber()].questionAnswer == false) {
                       scorekeeper.add(scorebuilder[0]);
-                      score++;
+                      quizBrain.increaseScore();
                     } else {
                       scorekeeper.add(scorebuilder[1]);
                     }
-                    questioncounter++;
-                    if (questioncounter == widget.questionstore.length) {
-                      questioncounter = 0;
+                    quizBrain.nextQuestion();
+                    if (quizBrain.getQuestionNumber() == widget.questionstore.length) {
+                      quizBrain.setQuestionNumber(0);
                     }
                   });
                 },
