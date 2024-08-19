@@ -2,7 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/widgets.dart';
-import 'package:quizzlerapp/question.dart';
+import 'question.dart';
+import 'package:quizzlerapp/quiz_brain.dart';
+
+QuizBrain quizBrain = QuizBrain();
 
 void main() {
   runApp(
@@ -34,12 +37,6 @@ class MyApp extends StatelessWidget {
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
-  static const List<String> questionstore = [
-    'are you a boy',
-    'are you gay',
-    'do you want to have a date with me',
-  ];
-
   static const List<bool> answers = [true, true, true];
 
   @override
@@ -48,31 +45,17 @@ class HomePage extends StatelessWidget {
       backgroundColor: Colors.grey[900],
       appBar: AppBar(
         backgroundColor: Colors.grey[900],
-        title: const Center(
-          child: Text(
-            'Quizzler',
-            style: TextStyle(
-              fontSize: 30.0,
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
-            ),
-          ),
+        title: Center(
+          child: quizBrain.createText('Quizzler', 30),
         ),
       ),
       body: Column(
         children: [
-          const Padding(
+          Padding(
             padding:
                 EdgeInsets.only(left: 20, right: 20, top: 100, bottom: 200),
             child: Center(
-              child: Text(
-                'Quizzler Time !',
-                style: TextStyle(
-                  fontSize: 30.0,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
-                ),
-              ),
+              child: quizBrain.createText('Quizzler time', 30),
             ),
           ),
           Padding(
@@ -123,15 +106,8 @@ class _studentNameState extends State<studentName> {
       backgroundColor: Colors.grey[900],
       appBar: AppBar(
         backgroundColor: Colors.grey[900],
-        title: const Center(
-          child: Text(
-            'Quizzler',
-            style: TextStyle(
-              fontSize: 30.0,
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
-            ),
-          ),
+        title: Center(
+          child: quizBrain.createText('Quizzler', 30),
         ),
       ),
       body: Column(
@@ -139,14 +115,7 @@ class _studentNameState extends State<studentName> {
         children: [
           Column(
             children: [
-              const Text(
-                'Please enter your name: ',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 25,
-                  color: Colors.white,
-                ),
-              ),
+              quizBrain.createText('Enter your name: ', 25),
               TextField(
                 controller: _studentName,
                 decoration: const InputDecoration(
@@ -170,14 +139,7 @@ class _studentNameState extends State<studentName> {
           ),
           Column(
             children: [
-              const Text(
-                'Please enter your class: ',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 25,
-                  color: Colors.white,
-                ),
-              ),
+              quizBrain.createText('Enter your class', 25),
               TextField(
                 controller: _studentName,
                 decoration: const InputDecoration(
@@ -228,8 +190,6 @@ class CreateQuestion extends StatefulWidget {
 class _CreateQuestionState extends State<CreateQuestion> {
   final TextEditingController _questionController = TextEditingController();
   final TextEditingController _studentName = TextEditingController();
-  List<Question> questionstore = [];
-  String name = '';
 
   @override
   Widget build(BuildContext context) {
@@ -237,28 +197,14 @@ class _CreateQuestionState extends State<CreateQuestion> {
       backgroundColor: Colors.grey[900],
       appBar: AppBar(
         backgroundColor: Colors.grey[900],
-        title: const Center(
-          child: Text(
-            'Create the quiz !         ',
-            style: TextStyle(
-              fontSize: 30.0,
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
-            ),
-          ),
+        title: Center(
+          child: quizBrain.createText('Create the quiz !         ', 30),
         ),
       ),
       body: SingleChildScrollView(
         child: Column(
           children: [
-            const Text(
-              'Enter your name:',
-              style: TextStyle(
-                fontSize: 23.0,
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
-              ),
-            ),
+            quizBrain.createText('Enter your name:', 23),
             Padding(
               padding: const EdgeInsets.all(15.0),
               child: TextField(
@@ -276,21 +222,14 @@ class _CreateQuestionState extends State<CreateQuestion> {
                 style: const TextStyle(color: Colors.white),
                 onSubmitted: (String value) {
                   setState(() {
-                    name = value;
+                    quizBrain.name  = value;
                   });
                 },
               ),
             ),
-            const Padding(
+            Padding(
               padding: EdgeInsets.only(top: 5.0, bottom: 15),
-              child: Text(
-                'Enter the questions',
-                style: TextStyle(
-                  fontSize: 23,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
-                ),
-              ),
+              child: quizBrain.createText('Enter questions:', 23),
             ),
             TextField(
               controller: _questionController,
@@ -316,7 +255,7 @@ class _CreateQuestionState extends State<CreateQuestion> {
                         onPressed: () {
                           setState(() {
                             if (_questionController.text.isNotEmpty) {
-                              questionstore.add(Question(question: _questionController.text, answer: true));
+                              quizBrain.questionBank.add(Question(question: _questionController.text, answer: true));
                               _questionController.clear();
                             }
                           });
@@ -334,7 +273,7 @@ class _CreateQuestionState extends State<CreateQuestion> {
                         onPressed: () {
                           setState(() {
                             if (_questionController.text.isNotEmpty) {
-                              questionstore.add(Question(question: _questionController.text, answer: false));
+                              quizBrain.questionBank.add(Question(question: _questionController.text, answer: false));
                               _questionController.clear();
                             }
                           });
@@ -346,14 +285,7 @@ class _CreateQuestionState extends State<CreateQuestion> {
                     )),
               ],
             ),
-            Text(
-              'Your name: ' + _studentName.text,
-              style: const TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
-              ),
-            ),
+            quizBrain.createText('Your name: ' + _studentName.text, 20),
             const Text(
               'Questions added:',
               style: TextStyle(
@@ -365,13 +297,10 @@ class _CreateQuestionState extends State<CreateQuestion> {
             SizedBox(
               height: 200,  // Adjust this height based on your needs
               child: ListView.builder(
-                itemCount: questionstore.length,
+                itemCount: quizBrain.questionBank.length,
                 itemBuilder: (context, index) {
                   return ListTile(
-                    title: Text(
-                      questionstore[index].questionText + ' - ' + questionstore[index].questionAnswer.toString(),
-                      style: const TextStyle(color: Colors.white),
-                    ),
+                    title: quizBrain.createText(quizBrain.questionBank[index].questionText + ' - ' + quizBrain.questionBank[index].questionAnswer.toString(), 20),
                   );
                 },
               ),
@@ -384,8 +313,8 @@ class _CreateQuestionState extends State<CreateQuestion> {
                       context,
                       MaterialPageRoute(
                           builder: (context) => QuizPage(
-                            questionstore: questionstore,
-                              name: name)),
+                            questionstore: quizBrain.questionBank,
+                              name: quizBrain.name)),
                     );
                   },
                   child: const Text('Start the quiz'),
@@ -441,14 +370,7 @@ class _QuizPageState extends State<QuizPage> {
       backgroundColor: Colors.grey[900],
       appBar: AppBar(
         backgroundColor: Colors.grey[900],
-        title: const Text(
-          'Quizzler',
-          style: TextStyle(
-            fontSize: 30.0,
-            fontWeight: FontWeight.bold,
-            color: Colors.white,
-          ),
-        ),
+        title: quizBrain.createText('Quizzler', 30),
       ),
       body: Center(
         child: Column(
@@ -461,25 +383,13 @@ class _QuizPageState extends State<QuizPage> {
                 SafeArea(
                   child: Padding(
                     padding: const EdgeInsets.only(left: 8.0),
-                    child: Text(
-                      widget.name,
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 25,
-                        color: Colors.white,
-                      ),
-                    ),
+                    child: quizBrain.createText(widget.name, 25),
                   ),
                 ),
                 SafeArea(
                   child: Padding(
                     padding: const EdgeInsets.only(right: 8.0),
-                    child: Text('your points: $score',
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 25,
-                          color: Colors.white,
-                        )),
+                    child: quizBrain.createText('your points: $score', 25)
                   ),
                 ),
               ],
@@ -489,14 +399,7 @@ class _QuizPageState extends State<QuizPage> {
                 child: Padding(
                   padding: const EdgeInsets.all(10.0),
                   child: Center(
-                    child: Text(
-                      widget.questionstore[questioncounter].questionText,
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 30.0,
-                        color: Colors.white,
-                      ),
-                    ),
+                    child: quizBrain.createText(widget.questionstore[questioncounter].questionText, 30),
                   ),
                 )),
             Expanded(
