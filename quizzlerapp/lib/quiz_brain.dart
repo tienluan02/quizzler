@@ -14,6 +14,8 @@ class QuizBrain {
 
   List<Question> questionBank = [];
 
+  List<Icon> scorekeeper = [];
+
   String name = '';
 
   Widget createText(String word, double size) {
@@ -41,6 +43,10 @@ class QuizBrain {
 
   void increaseScore() {
     _score++;
+  }
+
+  void decreaseScore() {
+    _score--;
   }
 
   void nextQuestion() {

@@ -352,11 +352,25 @@ class _QuizPageState extends State<QuizPage> {
     )
   ];
 
-  List<Icon> scorekeeper = [];
+  void checkAnswer(bool userPick) {
+    bool correctAnswer = quizBrain.questionBank[quizBrain.getQuestionNumber()].questionAnswer;
+
+    if (userPick == correctAnswer) {
+      quizBrain.scorekeeper.add(scorebuilder[0]);
+      quizBrain.increaseScore();
+    } else {
+      quizBrain.scorekeeper.add(scorebuilder[1]);
+      quizBrain.decreaseScore();
+    }
+    quizBrain.nextQuestion();
+    if (quizBrain.getQuestionNumber() == widget.questionstore.length) {
+      quizBrain.setQuestionNumber(0);
+    }
+  }
 
   int scoreCount() {
-    for (int i = 0; i < scorekeeper.length; i++) {
-      if (scorekeeper[i] == scorebuilder[0]) {
+    for (int i = 0; i < quizBrain.scorekeeper.length; i++) {
+      if (quizBrain.scorekeeper[i] == scorebuilder[0]) {
         quizBrain.increaseScore();
       }
     }
@@ -408,16 +422,7 @@ class _QuizPageState extends State<QuizPage> {
                 color: Colors.green,
                 onPressed: () {
                   setState(() {
-                    if (widget.questionstore[quizBrain.getQuestionNumber()].questionAnswer == true) {
-                      scorekeeper.add(scorebuilder[0]);
-                      quizBrain.increaseScore();
-                    } else {
-                      scorekeeper.add(scorebuilder[1]);
-                    }
-                    quizBrain.nextQuestion();
-                    if (quizBrain.getQuestionNumber() == widget.questionstore.length) {
-                      quizBrain.setQuestionNumber(0);
-                    }
+                    checkAnswer(true);
                   });
                 },
                 child: const Center(
@@ -432,16 +437,7 @@ class _QuizPageState extends State<QuizPage> {
                 color: Colors.red,
                 onPressed: () {
                   setState(() {
-                    if (widget.questionstore[quizBrain.getQuestionNumber()].questionAnswer == false) {
-                      scorekeeper.add(scorebuilder[0]);
-                      quizBrain.increaseScore();
-                    } else {
-                      scorekeeper.add(scorebuilder[1]);
-                    }
-                    quizBrain.nextQuestion();
-                    if (quizBrain.getQuestionNumber() == widget.questionstore.length) {
-                      quizBrain.setQuestionNumber(0);
-                    }
+                    checkAnswer(false);
                   });
                 },
                 child: const Center(
@@ -452,7 +448,7 @@ class _QuizPageState extends State<QuizPage> {
             Padding(
               padding: const EdgeInsets.only(top: 10.0, bottom: 20),
               child: Row(
-                children: scorekeeper,
+                children: quizBrain.scorekeeper,
               ),
             ),
           ],
