@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/widgets.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 import 'question.dart';
 import 'package:quizzlerapp/quiz_brain.dart';
 
@@ -365,6 +366,27 @@ class _QuizPageState extends State<QuizPage> {
     quizBrain.nextQuestion();
     if (quizBrain.getQuestionNumber() == widget.questionstore.length) {
       quizBrain.setQuestionNumber(0);
+      Alert(
+        context: context,
+        type: AlertType.error,
+        title: "TEST COMPLETED",
+        desc: "you have finished the test, return to the home page",
+        buttons: [
+          DialogButton(
+            child: Text(
+              "HOME",
+              style: TextStyle(color: Colors.white, fontSize: 20),
+            ),
+            onPressed: () => Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => const HomePage()),
+                  (Route<dynamic> route) => false,
+            ),
+            width: 120,
+          )
+        ],
+      ).show();
     }
   }
 
